@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName
 data class DataUser (
 
     @SerializedName("user")
-    private var user: User,
+      var user: User,
 
     @SerializedName("api_token")
-    private var api_token: String
+      var api_token: String
 )

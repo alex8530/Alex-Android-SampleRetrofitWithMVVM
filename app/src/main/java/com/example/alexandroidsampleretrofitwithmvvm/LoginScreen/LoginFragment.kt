@@ -15,6 +15,7 @@ import com.example.alexandroidsampleretrofitwithmvvm.ConstatVal.UNAUTHORIZED_COD
 
 import com.example.alexandroidsampleretrofitwithmvvm.R
 import com.example.alexandroidsampleretrofitwithmvvm.Utils
+import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUserSuccess
 import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseUserLoginError
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -50,7 +51,11 @@ class LoginFragment : Fragment() {
         viewModel.apiWraperLogin.observe(this, Observer {
              if (it.data!=null){
                 // when success code 200
-                print("print the result list or anything..")
+                 if (it.data?.status==true){
+                     print("print the result list or anything..")
+                 }else{
+                     print("")
+                 }
             }else if (it.error !=null  ){
                 //this error happend when somting wrong in the server for example no internet
                 print("print the error" + it.error)
@@ -58,17 +63,18 @@ class LoginFragment : Fragment() {
             }else if (it.gsonError!=null){
                 //this error happend when the request code is not from 200..300 >> ex.400 to 500
 
-                 if (it.code!=null && it.code == UNAUTHORIZED_CODE){
+                 if (it.code!=null && it.code == UNAUTHORIZED_CODE){//401
                      //unAuthorize >> restart the app and clean the savedUser data
-
+                    print("")
 
                  }else{
 
                      //todo this ResponseUserLoginError should be same for all request..
                      print("print the error")
                      var gson= Gson()
-                     val responseObject = gson.fromJson(it.gsonError,  ResponseUserLoginError::class.java)
-                     Utils.showFailAlert(activity,responseObject.message)
+                     val responseObject = gson.fromJson(it.gsonError,  ResponseLoginUserSuccess::class.java)
+//                     Utils.showFailAlert(activity,responseObject.message)
+                     Utils.showFailAlert(activity,responseObject.errors[0][0])
 
                  }
             }else{
@@ -76,7 +82,8 @@ class LoginFragment : Fragment() {
             }
         })
 
-        viewModel.sendLogin()
+//        viewModel.sendLogin()
+        viewModel.sendLogin2()
         return  view
     }
 }

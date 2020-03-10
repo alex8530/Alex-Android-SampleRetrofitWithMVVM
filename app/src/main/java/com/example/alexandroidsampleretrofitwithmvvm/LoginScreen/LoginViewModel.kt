@@ -27,7 +27,7 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
 
     var userLogin :MutableLiveData<DataUser> = MutableLiveData()
-    var apiWraperLogin :MutableLiveData<APIWraper<DataUser>> = MutableLiveData()
+    var apiWraperLogin :MutableLiveData<APIWraper<ResponseLoginUserSuccess>> = MutableLiveData()
     var mApplication: Application = application
 
 
@@ -51,7 +51,7 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
                  isLoading.value=false
                 Log.d("log", "log: " + GsonBuilder().setPrettyPrinting().create().toJson(response.body() ))
                 if (response.isSuccessful){
-                     apiWraperLogin.value=APIWraper( response.body()!!.data ,null,null,null)
+                     apiWraperLogin.value=APIWraper( response.body() ,null,null,null)
                 }else{
                     val errorBodyJson = response.errorBody()!!.string()
                      apiWraperLogin.value=APIWraper( null, null ,errorBodyJson,response.code())
@@ -62,6 +62,38 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
         })
     }
 
+
+    override fun sendLogin2() {
+        isLoading.value=true
+        var apiService= ServiceGenerator.createService(APIService::class.java)
+        var call = apiService.login2(1,"0598530950","123456787")
+        call.enqueue(object : Callback<ResponseLoginUserSuccess> {
+            override fun onFailure(call: Call<ResponseLoginUserSuccess>, t: Throwable) {
+                isLoading.value=false
+
+                Log.d("error",t.message)
+                apiWraperLogin.value=APIWraper( null, JavaUtils.checkErrorRequest(mApplication,t.message) ,null, null)
+
+
+            }
+            override fun onResponse(
+                call: Call<ResponseLoginUserSuccess>,
+                response: Response<ResponseLoginUserSuccess>
+            ) {
+                isLoading.value=false
+                Log.d("log", "log: " + GsonBuilder().setPrettyPrinting().create().toJson(response.body() ))
+                if (response.isSuccessful){
+                    apiWraperLogin.value=APIWraper( response.body() ,null,null,null)
+                }else{
+                    //any code except 200..300
+                    val errorBodyJson = response.errorBody()!!.string()
+                    apiWraperLogin.value=APIWraper( null, null ,errorBodyJson,response.code())
+
+                }
+            }
+
+        })
+    }
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
