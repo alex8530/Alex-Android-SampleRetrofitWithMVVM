@@ -6,6 +6,7 @@ import com.google.gson.Gson
 
 data class APIWraper<T>  (
     var data: T?=null,
-    var error:Throwable?=null,
-    var gsonError: String?= null
-         )
+    var error:String ?=null,
+    var gsonError: String?= null,
+    var code: Int?= null
+)
