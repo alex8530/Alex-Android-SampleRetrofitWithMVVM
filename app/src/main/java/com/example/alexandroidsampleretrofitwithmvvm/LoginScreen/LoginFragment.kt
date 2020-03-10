@@ -53,14 +53,18 @@ class LoginFragment : Fragment() {
                 // when success code 200
                  if (it.data?.status==true){
                      print("print the result list or anything..")
+                     Utils.showSuccessAlert(activity,"hi " + it?.data?.dataUser?.user?.name)
+
                  }else{
                      print("")
                  }
             }else if (it.error !=null  ){
-                //this error happend when somting wrong in the server for example no internet
+                //this error happened when something wrong in the server for example no internet
                 print("print the error" + it.error)
+                 Utils.showFailAlert(activity, it.error!!)
 
-            }else if (it.gsonError!=null){
+
+             }else if (it.gsonError!=null){
                 //this error happend when the request code is not from 200..300 >> ex.400 to 500
 
                  if (it.code!=null && it.code == UNAUTHORIZED_CODE){//401
@@ -68,6 +72,7 @@ class LoginFragment : Fragment() {
                     print("")
 
                  }else{
+
 
                      //todo this ResponseUserLoginError should be same for all request..
                      print("print the error")
@@ -83,7 +88,7 @@ class LoginFragment : Fragment() {
         })
 
 //        viewModel.sendLogin()
-        viewModel.sendLogin2()
+        viewModel.sendLogin2(1,"0598530950","12345678")
         return  view
     }
 }

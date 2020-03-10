@@ -1,6 +1,5 @@
 package com.example.alexandroidsampleretrofitwithmvvm.LoginScreen
 
 interface ILoginViewModel {
-    fun sendLogin()
-    fun sendLogin2()
+     fun sendLogin2(country_id :Int, phone :String, password:String)
 }
