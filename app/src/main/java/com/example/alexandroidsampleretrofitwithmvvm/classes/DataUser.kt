@@ -1,6 +1,6 @@
-package com.example.alexandroidsampleretrofitwithmvvm.model
+package com.example.alexandroidsampleretrofitwithmvvm.classes
 
-import com.google.gson.annotations.Expose
+import com.example.alexandroidsampleretrofitwithmvvm.classes.User
 import com.google.gson.annotations.SerializedName
 
 data class DataUser (

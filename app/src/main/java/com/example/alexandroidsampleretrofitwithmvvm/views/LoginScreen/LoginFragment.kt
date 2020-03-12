@@ -1,24 +1,25 @@
-package com.example.alexandroidsampleretrofitwithmvvm.LoginScreen
+package com.example.alexandroidsampleretrofitwithmvvm.views.LoginScreen
 
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.alexandroidsampleretrofitwithmvvm.ConstatVal
-import com.example.alexandroidsampleretrofitwithmvvm.ConstatVal.SERVER_ERROR_CODE
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.alexandroidsampleretrofitwithmvvm.ConstatVal.UNAUTHORIZED_CODE
 
 import com.example.alexandroidsampleretrofitwithmvvm.R
 import com.example.alexandroidsampleretrofitwithmvvm.Utils
-import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUserSuccess
-import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseUserLoginError
+import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUser
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_login.view.*
 
 
 /**
@@ -31,6 +32,8 @@ class LoginFragment : Fragment() {
             .get(LoginViewModel::class.java)
     }
 
+    lateinit var navController : NavController
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,7 +41,10 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
        var view =  inflater.inflate(R.layout.fragment_login, container, false)
 
-
+        navController=Navigation.findNavController(activity!!,R.id.my_nav_host_fragment)
+        view.btn_goToStore.setOnClickListener {
+            navController.navigate(R.id.action_loginFragment_to_storeFragment)
+        }
         viewModel.isLoading.observe(this, Observer {
 
             if (it){
@@ -74,10 +80,9 @@ class LoginFragment : Fragment() {
                  }else{
 
 
-                     //todo this ResponseUserLoginError should be same for all request..
                      print("print the error")
                      var gson= Gson()
-                     val responseObject = gson.fromJson(it.gsonError,  ResponseLoginUserSuccess::class.java)
+                     val responseObject = gson.fromJson(it.gsonError,  ResponseLoginUser::class.java)
 //                     Utils.showFailAlert(activity,responseObject.message)
                      Utils.showFailAlert(activity,responseObject.errors[0][0])
 
@@ -89,6 +94,12 @@ class LoginFragment : Fragment() {
 
 //        viewModel.sendLogin()
         viewModel.sendLogin2(1,"0598530950","12345678")
+
+
+//
+
         return  view
     }
+
+
 }

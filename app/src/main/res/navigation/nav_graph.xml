@@ -7,7 +7,16 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.alexandroidsampleretrofitwithmvvm.LoginScreen.LoginFragment"
+        android:name="com.example.alexandroidsampleretrofitwithmvvm.views.LoginScreen.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_storeFragment"
+            app:destination="@id/storeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/storeFragment"
+        android:name="com.example.alexandroidsampleretrofitwithmvvm.views.StoreScreen.StoreFragment"
+        android:label="fragment_store"
+        tools:layout="@layout/fragment_store" />
 </navigation>

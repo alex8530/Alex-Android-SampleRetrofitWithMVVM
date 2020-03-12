@@ -1,4 +1,4 @@
-package com.example.alexandroidsampleretrofitwithmvvm.LoginScreen
+package com.example.alexandroidsampleretrofitwithmvvm.views.LoginScreen
 
 interface ILoginRepository {
 

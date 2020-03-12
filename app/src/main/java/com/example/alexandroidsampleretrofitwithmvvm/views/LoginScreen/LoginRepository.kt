@@ -1,10 +1,10 @@
-package com.example.alexandroidsampleretrofitwithmvvm.LoginScreen
+package com.example.alexandroidsampleretrofitwithmvvm.views.LoginScreen
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.alexandroidsampleretrofitwithmvvm.JavaUtils
 import com.example.alexandroidsampleretrofitwithmvvm.model.APIWraper
-import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUserSuccess
+import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUser
 import com.example.androidnamechk.api.APIService
 import com.example.androidnamechk.api.ServiceGenerator
 import com.google.gson.GsonBuilder
@@ -15,7 +15,7 @@ import retrofit2.Response
 class LoginRepository  : ILoginRepository{
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
-    var apiWraperLogin :MutableLiveData<APIWraper<ResponseLoginUserSuccess>> = MutableLiveData()
+    var apiWraperLogin :MutableLiveData<APIWraper<ResponseLoginUser>> = MutableLiveData()
 
     override fun login(country_id: Int, phone: String, password: String) {
 
@@ -23,8 +23,8 @@ class LoginRepository  : ILoginRepository{
 
             var apiService= ServiceGenerator.createService(APIService::class.java)
             var call = apiService.login2(country_id,phone,password)
-            call.enqueue(object : Callback<ResponseLoginUserSuccess> {
-                override fun onFailure(call: Call<ResponseLoginUserSuccess>, t: Throwable) {
+            call.enqueue(object : Callback<ResponseLoginUser> {
+                override fun onFailure(call: Call<ResponseLoginUser>, t: Throwable) {
                     isLoading.value=false
 
                     Log.d("error",t.message)
@@ -34,8 +34,8 @@ class LoginRepository  : ILoginRepository{
 
                 }
                 override fun onResponse(
-                    call: Call<ResponseLoginUserSuccess>,
-                    response: Response<ResponseLoginUserSuccess>
+                    call: Call<ResponseLoginUser>,
+                    response: Response<ResponseLoginUser>
                 ) {
                     isLoading.value=false
                     Log.d("log", "log: " + GsonBuilder().setPrettyPrinting().create().toJson(response.body() ))

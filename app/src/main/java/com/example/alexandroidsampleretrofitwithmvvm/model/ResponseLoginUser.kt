@@ -1,12 +1,12 @@
 package com.example.alexandroidsampleretrofitwithmvvm.model
 
-import com.google.gson.annotations.Expose
+import com.example.alexandroidsampleretrofitwithmvvm.classes.DataUser
 import com.google.gson.annotations.SerializedName
 
-data class ResponseLoginUserSuccess (
+data class ResponseLoginUser (
 
     @SerializedName("status")
-     var status: Boolean ,
+     var status: Boolean,
     @SerializedName("data")
      var dataUser: DataUser,
 

@@ -1,24 +1,10 @@
-package com.example.alexandroidsampleretrofitwithmvvm.LoginScreen
+package com.example.alexandroidsampleretrofitwithmvvm.views.LoginScreen
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import com.example.alexandroidsampleretrofitwithmvvm.ConstatVal
-import com.example.alexandroidsampleretrofitwithmvvm.ConstatVal.SERVER_ERROR_CODE
-import com.example.alexandroidsampleretrofitwithmvvm.JavaUtils
-import com.example.alexandroidsampleretrofitwithmvvm.model.APIWraper
- import com.example.alexandroidsampleretrofitwithmvvm.model.DataUser
-import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUserSuccess
-import com.example.androidnamechk.api.APIService
-import com.example.androidnamechk.api.ServiceGenerator
-import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class LoginViewModel (application: Application) : AndroidViewModel(application) ,ILoginViewModel {
     private val viewModelJob = SupervisorJob()
