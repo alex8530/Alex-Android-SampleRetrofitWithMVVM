@@ -4,17 +4,17 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.example.alexandroidsampleretrofitwithmvvm.NetworkState
 import com.example.alexandroidsampleretrofitwithmvvm.classes.Store
 import com.example.alexandroidsampleretrofitwithmvvm.model.APIWraper
 import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseGetStore
+import com.example.alexandroidsampleretrofitwithmvvm.repository.StoreRepository
 
 class StoreViewModel(application: Application) :IStoreViewModel, AndroidViewModel(application)  {
 
-    private var storeRepository=StoreRepository()
+    private var storeRepository=
+        StoreRepository()
 
     var storePagedList: LiveData<PagedList<Store>> = MutableLiveData()
     var networkState: LiveData<NetworkState> = MutableLiveData()

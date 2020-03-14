@@ -1,28 +1,24 @@
-package com.example.alexandroidsampleretrofitwithmvvm.views.StoreScreen
+package com.example.alexandroidsampleretrofitwithmvvm.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.example.alexandroidsampleretrofitwithmvvm.JavaUtils
 import com.example.alexandroidsampleretrofitwithmvvm.NetworkState
 import com.example.alexandroidsampleretrofitwithmvvm.classes.Store
+import com.example.alexandroidsampleretrofitwithmvvm.irepository.IStoreRepository
 import com.example.alexandroidsampleretrofitwithmvvm.model.APIWraper
 import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseGetStore
-import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUser
-import com.example.androidnamechk.api.APIService
-import com.example.androidnamechk.api.ServiceGenerator
-import com.google.gson.GsonBuilder
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.alexandroidsampleretrofitwithmvvm.views.StoreScreen.StoreDataSource
+import com.example.alexandroidsampleretrofitwithmvvm.views.StoreScreen.StoreDataSourceFactory
 
-class StoreRepository :IStoreRepository{
+class StoreRepository :
+    IStoreRepository {
 
     //this line will create live data data source
-    var itemDataSourceFactory: StoreDataSourceFactory = StoreDataSourceFactory()
+    var itemDataSourceFactory: StoreDataSourceFactory =
+        StoreDataSourceFactory()
 
     var storePagedList: LiveData<PagedList<Store>> = MutableLiveData()
     var networkState: LiveData<NetworkState> = MutableLiveData()

@@ -2,6 +2,7 @@ package com.example.alexandroidsampleretrofitwithmvvm.views.LoginScreen
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.example.alexandroidsampleretrofitwithmvvm.repository.LoginRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -12,7 +13,8 @@ class LoginViewModel (application: Application) : AndroidViewModel(application) 
     var mApplication: Application = application
 
 
-    private val loginRepository = LoginRepository()
+    private val loginRepository =
+        LoginRepository()
 
     val isLoading=loginRepository.isLoading
     val apiWraperLogin =loginRepository.apiWraperLogin

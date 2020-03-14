@@ -1,8 +1,9 @@
-package com.example.alexandroidsampleretrofitwithmvvm.views.LoginScreen
+package com.example.alexandroidsampleretrofitwithmvvm.repository
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.alexandroidsampleretrofitwithmvvm.JavaUtils
+import com.example.alexandroidsampleretrofitwithmvvm.irepository.ILoginRepository
 import com.example.alexandroidsampleretrofitwithmvvm.model.APIWraper
 import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUser
 import com.example.androidnamechk.api.APIService
@@ -12,7 +13,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginRepository  : ILoginRepository{
+class LoginRepository  :
+    ILoginRepository {
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var apiWraperLogin :MutableLiveData<APIWraper<ResponseLoginUser>> = MutableLiveData()
