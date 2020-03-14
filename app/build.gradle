@@ -24,6 +24,9 @@ android {
 }
 
 dependencies {
+    def paging_version = "2.1.0-rc01"
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -54,5 +57,13 @@ dependencies {
 
     // ViewModel and LiveData (arch components)
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
+
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+
+    //progress dailog
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
 
 }

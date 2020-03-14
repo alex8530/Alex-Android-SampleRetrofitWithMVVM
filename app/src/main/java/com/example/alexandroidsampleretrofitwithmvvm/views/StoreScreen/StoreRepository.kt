@@ -1,8 +1,14 @@
 package com.example.alexandroidsampleretrofitwithmvvm.views.StoreScreen
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.example.alexandroidsampleretrofitwithmvvm.JavaUtils
+import com.example.alexandroidsampleretrofitwithmvvm.NetworkState
+import com.example.alexandroidsampleretrofitwithmvvm.classes.Store
 import com.example.alexandroidsampleretrofitwithmvvm.model.APIWraper
 import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseGetStore
 import com.example.alexandroidsampleretrofitwithmvvm.model.ResponseLoginUser
@@ -13,44 +19,40 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class StoreRepository  :IStoreRepository{
+class StoreRepository :IStoreRepository{
+
+    //this line will create live data data source
+    var itemDataSourceFactory: StoreDataSourceFactory = StoreDataSourceFactory()
+
+    var storePagedList: LiveData<PagedList<Store>> = MutableLiveData()
+    var networkState: LiveData<NetworkState> = MutableLiveData()
+    var initialLoading: LiveData<NetworkState> = MutableLiveData()
+    var apiWraperStore : LiveData<APIWraper<ResponseGetStore>> = MutableLiveData()
 
 
-    var isLoading: MutableLiveData<Boolean> = MutableLiveData()
-    var apiWraperStore : MutableLiveData<APIWraper<ResponseGetStore>> = MutableLiveData()
-    override fun getStore() {
-        isLoading.value=true
 
-        var apiService= ServiceGenerator.createService(APIService::class.java)
-        var call = apiService.getStores("1")
-        call.enqueue(object : Callback<ResponseGetStore> {
-            override fun onFailure(call: Call<ResponseGetStore>, t: Throwable) {
-                isLoading.value=false
-
-                Log.d("error",t.message)
-                apiWraperStore.value=
-                    APIWraper( null, JavaUtils.checkErrorRequest(t.message) ,null, null)
-
-
-            }
-            override fun onResponse(
-                call: Call<ResponseGetStore>,
-                response: Response<ResponseGetStore>
-            ) {
-                isLoading.value=false
-                Log.d("log", "log: " + GsonBuilder().setPrettyPrinting().create().toJson(response.body() ))
-                if (response.isSuccessful){
-                    apiWraperStore.value= APIWraper( response.body() ,null,null,null)
-                }else{
-                    //any code except 200..300
-                    val errorBodyJson = response.errorBody()!!.string()
-                    apiWraperStore.value= APIWraper( null, null ,errorBodyJson,response.code())
-
-                }
+    override fun getStorePageList() {
+        apiWraperStore=  Transformations.switchMap(itemDataSourceFactory.storeLiveDataSource ) {
+                    dataSource -> dataSource.apiWraperStore
             }
 
-        })
+        networkState =
+            Transformations.switchMap(itemDataSourceFactory.storeLiveDataSource ) {
+                    dataSource -> dataSource.networkState
+            }
 
+        initialLoading=
+            Transformations.switchMap(itemDataSourceFactory.storeLiveDataSource) {
+                    dataSource -> dataSource.initialLoading
+            }
+
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setPageSize(StoreDataSource.PAGE_SIZE)
+            .build()
+
+        storePagedList = LivePagedListBuilder(itemDataSourceFactory, config)
+            .build()
 
     }
 }
